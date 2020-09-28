@@ -91,5 +91,5 @@ class Server:
         exit()
 
 
-new_server = Server('192.168.1.6', 58899)
+new_server = Server('192.168.1.4', 58899)
 new_server.run()

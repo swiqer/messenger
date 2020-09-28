@@ -1,6 +1,7 @@
 import rsa
 import base64
 import json
+from colorit import *
 
 (SWIQER_PUB, SWIQER_PRIV) = rsa.newkeys(1024)
 
@@ -10,14 +11,20 @@ def get_pubkey():
 
 
 def rsa_encrypt(message, pub_key=0):
-    message = rsa.encrypt(message.encode('utf-8'), pub_key)
-    fuck = base64.b64encode(message).decode('ascii')
-    return fuck
+    try:
+        message = rsa.encrypt(message.encode('utf-8'), pub_key)
+        fuck = base64.b64encode(message).decode('ascii')
+        return fuck
+    except Exception:
+        print(color("[!] Encript ERROR", Colors.red))
     
 
 def rsa_decrypt(message):
-    message = base64.b64decode(message)
-    return rsa.decrypt(message, SWIQER_PRIV).decode('utf-8')
+    try:
+        message = base64.b64decode(message)
+        return rsa.decrypt(message, SWIQER_PRIV).decode('utf-8')
+    except Exception:
+        print(color("[!] Decrypt ERROR", Colors.red))
 
 
 
