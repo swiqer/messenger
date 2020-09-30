@@ -116,5 +116,5 @@ class Server:
         self.server2.close()
 
 
-new_server = Server('192.168.1.4', 50056, 50057)
+new_server = Server('165.227.141.219', 50008, 50009)
 new_server.run()

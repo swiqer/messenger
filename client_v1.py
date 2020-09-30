@@ -108,20 +108,26 @@ class Client:
 
 
 # nickname = input("Your nickname >> ")
-"""ip = input("IP to connect >> ")
-port = int(input("PORT to connect >> "))
-binary = input("Is everything right ?(y/n) >> ")
+ip = "165.227.141.219"
+port = 50005
+print(color("IP", Colors.blue) + " to connect >> " + color(f"{ip}\n", Colors.blue))
+print(color("PORT", Colors.blue) + " to connect >> " + color(f"{port}\n", Colors.blue))
+binary = input(color("[!] ", Colors.yellow) + "Is everything right ? (" + color("y", Colors.green) + "/" + color("n", Colors.red) + ") " + color(">> ", Colors.yellow))
 while binary != 'y':
-    param = input("What needs to be changed ?\nip(1), port(2) enter number >> ")
+    param = input(color("[!] ", Colors.yellow) + "What needs to be changed ?\n" + color("ip", Colors.blue) + "("+ color("1", Colors.orange) + "), "+ color("port", Colors.blue)+"("+ color("2",Colors.orange) + ") enter " + color("number", Colors.orange) +" >> ")
     # if param == "1":
     #    nickname = input("nickname >> ")
     if param == "1":
-        ip = input("ip >> ")
+        ip = input(color("ip", Colors.blue) + " >> ")
     else:
-        port = int(input("port >> "))
-    binary = input("Is everything right ?(y/n) >> ")
+        port = int(input(color("port", Colors.blue) + " >> "))
+    subprocess.call("clear", shell=True)
+    print(color("IP", Colors.blue) + " to connect >> " + color(f"{ip}\n", Colors.blue))
+    print(color("PORT", Colors.blue) + " to connect >> " + color(f"{port}\n", Colors.blue))
+    binary = input(color("[!] ", Colors.yellow) + "Is everything right ? (" + color("y", Colors.green) + "/" + color("n", Colors.red) + ") " + color(">> ", Colors.yellow))
+    
 
-subprocess.call("clear", shell=True)"""
+subprocess.call("clear", shell=True)
 
-new_client = Client("192.168.1.4", 50057)
+new_client = Client(ip, port)
 new_client.run()
