@@ -4,6 +4,7 @@ import subprocess
 from threading import Thread
 from colorit import *
 from encription import *
+import sys
 
 
 subprocess.call("clear", shell=True)
@@ -52,43 +53,48 @@ class Server:
                 continue
         print(color(f"[+] Got a pub_key2", Colors.green))
 
-
-        self.reliable_send_1(pub_key2)
-        self.reliable_send_2(pub_key1)
+    
+        self.reliable_send_1(pub_key1)
+        self.reliable_send_2(pub_key2)
         
     
 
 
     def reliable_send_1(self, json_data):
-        self.client_socket2.send(json_data)
+        try:
+            self.client_socket2.send(json_data)
+        except Exception:
+            pass
 
     def reliable_receive_1(self, flag=0):
         json_data = "".encode()
-        while True:
-            try:
-                json_data = json_data + self.client_socket1.recv(1024)
-                if flag == 0:
-                    self.reliable_send_1(json_data)
-                elif flag == 1:
-                    return json_data
-            except ValueError:
-                continue
+        try:
+            json_data = json_data + self.client_socket1.recv(1024)
+            if flag == 0:
+                self.reliable_send_1(json_data)
+            elif flag == 1:
+                return json_data
+        except ValueError:
+            pass
 
 
     def reliable_send_2(self, json_data):
-        self.client_socket1.send(json_data)
+        try:
+            self.client_socket1.send(json_data)
+        except Exception:
+            pass
 
     def reliable_receive_2(self, flag=0):
         json_data = "".encode()
-        while True:
-            try:
-                json_data = json_data + self.client_socket2.recv(1024)
-                if flag == 0:
-                    self.reliable_send_2(json_data)
-                elif flag == 1:
-                    return json_data
-            except ValueError:
-                continue
+        try:
+            json_data = json_data + self.client_socket2.recv(1024)
+            if flag == 0:
+                self.reliable_send_2(json_data)
+            elif flag == 1:
+                return json_data
+        except ValueError:
+            pass
+    
 
     def start_1(self):
         while True:
@@ -110,5 +116,5 @@ class Server:
         self.server2.close()
 
 
-new_server = Server('192.168.1.4', 50028, 50029)
+new_server = Server('192.168.1.4', 50056, 50057)
 new_server.run()

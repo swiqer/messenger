@@ -38,7 +38,6 @@ class Client:
             try:
                 n, e = self.reliable_receive()
                 self.pub_key = rsa.PublicKey(n, e)
-                print(color("[!] Saved key", Colors.green))
             except Exception:
                 print(color("[!] Error saved key", Colors.red))
                 continue
@@ -46,8 +45,8 @@ class Client:
 
     def reliable_send(self, data, flag=0):
         if flag == 0:
-            #json_data = json.dumps(rsa_encrypt(data, self.pub_key))
-            json_data = json.dumps(data)
+            json_data = json.dumps(rsa_encrypt(data, self.pub_key))
+            #json_data = json.dumps(data)
         else:
             json_data = json.dumps(data)
         self.connection.send(json_data.encode())
@@ -69,10 +68,11 @@ class Client:
                 self.message_status = True
                 client_message = input("")
                 self.reliable_send(client_message)
-                self.message_status = False
-                res = exit_func(client_message)
-                if res == 1:
-                    break
+                if client_message == "exit":
+                    #self.thread1.join()
+                    #self.thread2.join()
+                    #self.connection.close()
+                    sys.exit()
 
             except Exception:
                 self.reliable_send("WTF? ITS fucking error ¯\_(ツ)_/¯")
@@ -82,10 +82,15 @@ class Client:
         while True:
             try:
                 server_message = self.reliable_receive()
-                #message = rsa_decrypt(server_message)
-                message = server_message
+                message = rsa_decrypt(server_message)
+                #message = server_message
                 print(color(f"{message}", Colors.green))
-                exit_func(server_message)
+                if message == "exit":
+                    #self.thread1.join()
+                    #self.thread2.join()
+                    #self.connection.close()
+                    sys.exit()
+
 
             except Exception:
                 self.reliable_send("WTF? ITS fucking error ¯\_(ツ)_/¯")
@@ -99,7 +104,7 @@ class Client:
         self.thread2.start()
         self.thread1.join()
         self.thread2.join()
-        self.connection.close()
+        
 
 
 # nickname = input("Your nickname >> ")
@@ -118,5 +123,5 @@ while binary != 'y':
 
 subprocess.call("clear", shell=True)"""
 
-new_client = Client("192.168.1.4", 50029)
+new_client = Client("192.168.1.4", 50057)
 new_client.run()
